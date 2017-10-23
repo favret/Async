@@ -14,7 +14,7 @@ extension Array {
   
   /**
    */
-  func async_map<R>(queue: DispatchQueue = .global(), iterations: Int = 2, transform: @escaping (Element) -> R) -> [R?] {
+  public func async_map<R>(queue: DispatchQueue = .global(), iterations: Int = 2, transform: @escaping (Element) -> R) -> [R?] {
     
     var result = Array<R?>(repeating: nil, count: count)
     queue.sync {
@@ -32,7 +32,7 @@ extension Array {
   
   /**
    */
-  func async_forEach(queue: DispatchQueue = .global(), iterations: Int = 2, body: @escaping (Element) -> Void) {
+  public func async_forEach(queue: DispatchQueue = .global(), iterations: Int = 2, body: @escaping (Element) -> Void) {
     queue.sync {
       DispatchQueue.concurrentPerform(iterations: iterations) { i in
         let n = self.count / iterations
@@ -47,6 +47,6 @@ extension Array {
 
 /**
  */
-func async_parallel(queue: DispatchQueue = .global(), iterations: Int = 2, tasks: () -> Void...) {
+public func async_parallel(queue: DispatchQueue = .global(), iterations: Int = 2, tasks: () -> Void...) {
   tasks.async_forEach(queue: queue, iterations: iterations) { $0() }
 }
